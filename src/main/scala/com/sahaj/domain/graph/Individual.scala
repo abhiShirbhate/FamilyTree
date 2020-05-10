@@ -1,8 +1,12 @@
 package com.sahaj.domain.graph
 
+import java.util.NoSuchElementException
+
 import com.sahaj.dictionary.PersonDictionary
 
 class Individual(name:String, parent:Family) {
+  PersonDictionary.addPerson(this)
+
   var family: Family = _
   def name():String = name
   def getParent:Family = parent
@@ -11,9 +15,17 @@ class Individual(name:String, parent:Family) {
 }
 
 object Individual {
-  def apply(name: String, parent: Family): Individual = {
-    val person = new Individual(name, parent)
-    PersonDictionary.addPerson(person)
-    person
+  implicit def toMale(ind:Individual):Male = {
+    ind match {
+      case _:Male => ind.asInstanceOf[Male]
+      case _ => throw new NoSuchElementException("")
+    }
+  }
+
+  implicit def toFemale(ind:Individual):Female = {
+    ind match {
+      case _:Female => ind.asInstanceOf[Female]
+      case _ => throw new NoSuchElementException("")
+    }
   }
 }
