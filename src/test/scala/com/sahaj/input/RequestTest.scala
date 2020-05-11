@@ -49,8 +49,7 @@ class RequestTest extends FlatSpec with BeforeAndAfter {
 
     val king = PersonDictionary.getPerson("King")
     assert(king != null)
-    assert(king.getFamily.getChildren.size == 1)
-    assert(king.getFamily.getChildren(0).name() == "Princess")
+    assert(king.getFamily.getChildren.isEmpty)
 
   }
 
@@ -80,6 +79,18 @@ class RequestTest extends FlatSpec with BeforeAndAfter {
     val output = parser.parse(input3).execute()
 
     assert(output == "NONE")
+  }
+
+  it should "get PersonNotFound for non existing pearson GET_RELATIONSHIP" in {
+    val input1 = "START_FAMILY King Queen"
+    val request = parser.parse(input1)
+    request.execute()
+    val input2 = "ADD_CHILD Queen Princess Female"
+    parser.parse(input2).execute()
+    val input3 = "GET_RELATIONSHIP Prik Son"
+    val output = parser.parse(input3).execute()
+
+    assert(output == "PERSON_NOT_FOUND")
   }
 
   it should "create family relation for command MARY" in {

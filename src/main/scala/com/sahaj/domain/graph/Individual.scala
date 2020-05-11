@@ -18,14 +18,14 @@ object Individual {
   implicit def toMale(ind:Individual):Male = {
     ind match {
       case _:Male => ind.asInstanceOf[Male]
-      case _ => throw new NoSuchElementException("")
+      case _ => throw new IllegalArgumentException("Invalid argument given for casting.")
     }
   }
 
   implicit def toFemale(ind:Individual):Female = {
     ind match {
       case _:Female => ind.asInstanceOf[Female]
-      case _ => throw new NoSuchElementException("")
+      case _ => throw new IllegalArgumentException("Invalid argument given for casting.")
     }
   }
 }

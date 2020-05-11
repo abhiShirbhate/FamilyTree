@@ -11,4 +11,13 @@ class Female(override val name:String, parent: Family, var children:List[Individ
   def addChildren(newChildren: List[Individual]) = {
     children = children ::: newChildren
   }
+
+  def addChild(name:String, gender:String): Individual = {
+    val child: Individual = gender.toLowerCase match {
+      case "male" => new Male(name, this.getFamily)
+      case "female" => new Female(name, this.getFamily)
+    }
+    children = children :+ child
+    child
+  }
 }

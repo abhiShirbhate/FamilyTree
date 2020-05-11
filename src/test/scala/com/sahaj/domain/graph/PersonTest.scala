@@ -1,7 +1,6 @@
-package scala.com.sahaj.domain.graph
+package com.sahaj.domain.graph
 
 import com.sahaj.dictionary.PersonDictionary
-import com.sahaj.domain.graph.{ Family, Female, Male, RelationLookup }
 import org.scalatest.{ BeforeAndAfter, FlatSpec }
 
 class PersonTest extends FlatSpec with BeforeAndAfter {
@@ -11,19 +10,20 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
   }
 
   "Given name of queen" should "print son" in {
+    PersonDictionary.clear()
     val father = new Male("King", null)
     val mother = new Female("Queen", null)
     val family = Family(father, mother)
-    val child1 = new Male("Child1", family)
-    mother.addChildren(List(child1))
+//    val child1 = new Male("Child1", family)
+//    mother.addChildren(List(child1))
+    val child1 = mother.addChild("Child1", "Male")
 
     //find son of queen
     val queen = PersonDictionary.getPerson("Queen")
     val relationFinder = RelationLookup.getLookUp("Son")
 
     val result = relationFinder(queen)
-    println(result)
-    assert(result.equals(List(child1)))
+    assert(result == List(child1))
   }
 
   it should "print brother-in-law" in {
