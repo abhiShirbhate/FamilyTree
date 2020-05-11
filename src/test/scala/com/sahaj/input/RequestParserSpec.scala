@@ -15,12 +15,12 @@ class RequestParserSpec extends FlatSpec with BeforeAndAfterAll {
     PersonDictionary.clear()
   }
 
-  "Request parser" should "parse start family request" in {
-    val input1 = "START_FAMILY Test1 Test2"
+  "Request parser" should "parse ADD request" in {
+    val input1 = "ADD Test1 Test2"
     val parser = new RequestParser()
 
     val request = parser.parse(input1)
-    assert(request.isInstanceOf[StartFamily])
+    assert(request.isInstanceOf[Add])
 
   }
 

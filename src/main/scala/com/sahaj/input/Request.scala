@@ -45,11 +45,12 @@ case class Marriage(groom: String, bridge: String) extends Request {
   }
 }
 
-case class StartFamily(maleName:String, femaleName: String) extends Request {
+case class Add(name:String, gender: String) extends Request {
   override def execute(): String = {
-      val male = new Male(maleName, null)
-      val female = new Female(femaleName, null)
-      male.marry(female)
+    gender.toLowerCase match {
+      case "male" => new Male(name, null)
+      case "female" => new Female(name, null)
+    }
       OPERATION_SUCCEEDED
   }
 }

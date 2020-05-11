@@ -4,8 +4,8 @@ class RequestParser {
 
   def parse(input:String): Request = {
     val inputToken = input.split(" ")
-     inputToken(0) match {
-      case "START_FAMILY" => StartFamily(inputToken(1), inputToken(2))
+     inputToken(0).toUpperCase match {
+      case "ADD" => Add(inputToken(1), inputToken(2))
       case "MARY" => Marriage(inputToken(1), inputToken(2))
       case "ADD_CHILD" => AddChildren(inputToken(1), inputToken(2), inputToken(3))
       case "GET_RELATIONSHIP" => FindRelation(inputToken(1), inputToken(2))

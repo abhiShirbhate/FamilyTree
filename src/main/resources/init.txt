@@ -1,0 +1,40 @@
+ADD Shan Male
+ADD Anga Female
+MARY Shan Anga
+ADD_CHILD Anga Chit Male
+ADD_CHILD Anga Ish Male
+ADD_CHILD Anga Vich Male
+ADD_CHILD Anga Aras Male
+ADD_CHILD Anga Satya Female
+ADD Amba Female
+MARY Chit Amba
+ADD Chitra Female
+MARY Aras Chitra
+ADD_CHILD Amba Dritha Female
+ADD_CHILD Amba Tritha Female
+ADD_CHILD Amba Vritha Male
+ADD Jaya Male
+MARY Jaya Dritha
+ADD_CHILD Dritha Yodhan Male
+ADD Lika Female
+MARY Vich Lika
+ADD_CHILD Lika Vila Female
+ADD_CHILD Lika Chika Female
+ADD_CHILD Chitra Jnki Female
+ADD_CHILD Chitra Ahit Male
+ADD Arit Male
+MARY Arit Jnki
+ADD_CHILD Jnki Lavnya Female
+ADD_CHILD Jnki Laki Male
+ADD Vyan Male
+MARY Vyan Satya
+ADD_CHILD Satya Asva Male
+ADD_CHILD Satya Atya Female
+ADD_CHILD Satya Vyas Male
+ADD Satvy Female
+MARY Asva Satvy
+ADD_CHILD Satvy Vasa Male
+ADD Krpi Female
+MARY Vyas Krpi
+ADD_CHILD Krpi Kriya Male
+ADD_CHILD Krpi Krithi Female

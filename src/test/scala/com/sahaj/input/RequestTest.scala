@@ -12,24 +12,20 @@ class RequestTest extends FlatSpec with BeforeAndAfter {
 
   val parser = new RequestParser()
 
-  "Request parser" should "create family for init family request" in {
-    val input1 = "START_FAMILY King Queen"
+  "Request parser" should "create persoan for ADD request" in {
+    val input1 = "ADD King Male"
     val request = parser.parse(input1)
     request.execute()
 
     val king = PersonDictionary.getPerson("King")
     assert(king != null)
-    val queen = PersonDictionary.getPerson("Queen")
-    assert(queen != null)
-
-    assert(king.getFamily.getSpouse(king) == queen)
-
+    assert(king.isInstanceOf[Male])
   }
 
   it should "create child relationship for Add_CHILD command" in {
-    val input1 = "START_FAMILY King Queen"
-    val request = parser.parse(input1)
-    request.execute()
+    val init = List("ADD King Male", "ADD Queen Female", "MARY King Queen")
+    val request = init.map(parser.parse(_).execute())
+
     val input2 = "ADD_CHILD Queen Princess Female"
     parser.parse(input2).execute()
 
@@ -41,9 +37,9 @@ class RequestTest extends FlatSpec with BeforeAndAfter {
   }
 
   it should "not create child relationship for Add_CHILD command on male" in {
-    val input1 = "START_FAMILY King Queen"
-    val request = parser.parse(input1)
-    request.execute()
+    val init = List("ADD King Male", "ADD Queen Female", "MARY King Queen")
+    val request = init.map(parser.parse(_).execute())
+
     val input2 = "ADD_CHILD King Princess Female"
     parser.parse(input2).execute()
 
@@ -54,9 +50,9 @@ class RequestTest extends FlatSpec with BeforeAndAfter {
   }
 
   it should "get daughter for command GET_RELATIONSHIP" in {
-    val input1 = "START_FAMILY King Queen"
-    val request = parser.parse(input1)
-    request.execute()
+    val init = List("ADD King Male", "ADD Queen Female", "MARY King Queen")
+    val request = init.map(parser.parse(_).execute())
+
     val input2 = "ADD_CHILD Queen Princess Female"
     parser.parse(input2).execute()
     val input3 = "GET_RELATIONSHIP Queen Daughter"
@@ -70,9 +66,9 @@ class RequestTest extends FlatSpec with BeforeAndAfter {
   }
 
   it should "get NONE for non existing GET_RELATIONSHIP" in {
-    val input1 = "START_FAMILY King Queen"
-    val request = parser.parse(input1)
-    request.execute()
+    val init = List("ADD King Male", "ADD Queen Female", "MARY King Queen")
+    val request = init.map(parser.parse(_).execute())
+
     val input2 = "ADD_CHILD Queen Princess Female"
     parser.parse(input2).execute()
     val input3 = "GET_RELATIONSHIP Queen Son"
@@ -82,9 +78,9 @@ class RequestTest extends FlatSpec with BeforeAndAfter {
   }
 
   it should "get PersonNotFound for non existing pearson GET_RELATIONSHIP" in {
-    val input1 = "START_FAMILY King Queen"
-    val request = parser.parse(input1)
-    request.execute()
+    val init = List("ADD King Male", "ADD Queen Female", "MARY King Queen")
+    val request = init.map(parser.parse(_).execute())
+
     val input2 = "ADD_CHILD Queen Princess Female"
     parser.parse(input2).execute()
     val input3 = "GET_RELATIONSHIP Prik Son"
@@ -94,8 +90,8 @@ class RequestTest extends FlatSpec with BeforeAndAfter {
   }
 
   it should "create family relation for command MARY" in {
-    val kingCreated = new Male("King", null)
-    val QueenCreated = new Female("Queen", null)
+    val init = List("ADD King Male", "ADD Queen Female")
+    val request = init.map(parser.parse(_).execute())
     val input3 = "MARY King Queen"
     parser.parse(input3).execute()
 

@@ -20,7 +20,7 @@ object RelationLookup {
     }
   }
 
-  private val son:RelationTraversal  = (n:Individual) => n.getFamily.getChildren.filter(_.isInstanceOf[Male]).toList
+  private val son:RelationTraversal = (n:Individual) => n.getFamily.getChildren.filter(_.isInstanceOf[Male])
   private val daughter = (n:Individual) => n.getFamily.getChildren.filter(_.isInstanceOf[Female])
   private val paternalUncle= (n:Individual) => n.getParent.getFather.getParent.getChildren.filter(_.isInstanceOf[Male]).filter(_!=n.getParent.getFather)
   private val maternalUncle = (n:Individual) => n.getParent.getMother.getParent.getChildren.filter(_.isInstanceOf[Male])

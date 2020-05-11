@@ -1,13 +1,25 @@
 package com.sahaj
 
 import com.sahaj.input.RequestParser
+import com.typesafe.config.ConfigFactory
 
 import scala.io.Source
 
 object Main {
+
   val requestParser = new RequestParser()
+  val conf = ConfigFactory.load
+
   def main(args: Array[String]): Unit = {
-    Source.fromFile("src/resources/Input.txt").getLines.foreach { x =>
+    val initFile = conf.getString("init")
+    executeCommand(initFile)
+    println("############--Initialisation Completed ----############")
+    val inputFile = conf.getString("input")
+    executeCommand(inputFile)
+  }
+
+  private def executeCommand(initFile: String) = {
+    Source.fromFile(initFile).getLines.foreach { x =>
       val output = requestParser.parse(x).execute()
       println(output)
     }
