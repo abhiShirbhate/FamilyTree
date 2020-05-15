@@ -4,14 +4,16 @@ import java.util.NoSuchElementException
 
 import com.sahaj.dictionary.PersonDictionary
 
-class Individual(name:String, parent:Family) {
+class Individual(name:String, parent:Option[Family]) {
   PersonDictionary.addPerson(this)
 
-  var family: Family = _
+  var family: Option[Family] = None
   def name():String = name
-  def getParent:Family = parent
-  def getFamily = family
-  def setFamily(family: Family) = this.family = family
+  def getParent:Option[Family] = parent
+  def getFamily = {
+    family
+  }
+  def setFamily(family: Family) = this.family = Some(family)
 }
 
 object Individual {

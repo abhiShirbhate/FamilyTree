@@ -31,8 +31,8 @@ class RequestTest extends FlatSpec with BeforeAndAfter {
 
     val king = PersonDictionary.getPerson("King")
     assert(king != null)
-    assert(king.getFamily.getChildren.size == 1)
-    assert(king.getFamily.getChildren(0).name() == "Princess")
+    assert(king.getFamily.get.getChildren.size == 1)
+    assert(king.getFamily.get.getChildren(0).name() == "Princess")
 
   }
 
@@ -45,7 +45,7 @@ class RequestTest extends FlatSpec with BeforeAndAfter {
 
     val king = PersonDictionary.getPerson("King")
     assert(king != null)
-    assert(king.getFamily.getChildren.isEmpty)
+    assert(king.getFamily.get.getChildren.isEmpty)
 
   }
 
@@ -60,8 +60,8 @@ class RequestTest extends FlatSpec with BeforeAndAfter {
 
     val king = PersonDictionary.getPerson("King")
     assert(king != null)
-    assert(king.getFamily.getChildren.size == 1)
-    assert(king.getFamily.getChildren(0).name() == "Princess")
+    assert(king.getFamily.get.getChildren.size == 1)
+    assert(king.getFamily.get.getChildren(0).name() == "Princess")
 
   }
 
@@ -97,7 +97,7 @@ class RequestTest extends FlatSpec with BeforeAndAfter {
 
     val king = PersonDictionary.getPerson("King")
     assert(king != null)
-    assert(king.getFamily.getSpouse(king).name == "Queen")
+    assert(king.getFamily.get.getSpouse(king).name == "Queen")
   }
 
   it should "not create family relation with NonExisting person for command MARY" in {

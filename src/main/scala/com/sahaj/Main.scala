@@ -12,9 +12,10 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     val initFile = conf.getString("init")
-    executeCommand(initFile)
-    println("############--Initialisation Completed ----############")
-    val inputFile = conf.getString("input")
+    Source.fromFile(initFile).getLines.foreach { x =>
+      requestParser.parse(x).execute()
+    }
+    val inputFile = args(0)
     executeCommand(inputFile)
   }
 

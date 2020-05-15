@@ -11,11 +11,9 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
 
   "Given name of queen" should "print son" in {
     PersonDictionary.clear()
-    val father = new Male("King", null)
-    val mother = new Female("Queen", null)
-    val family = Family(father, mother)
-//    val child1 = new Male("Child1", family)
-//    mother.addChildren(List(child1))
+    val father = new Male("King", None)
+    val mother = new Female("Queen", None)
+    Family(father, mother)
     val child1 = mother.addChild("Child1", "Male")
 
     //find son of queen
@@ -26,15 +24,29 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
     assert(result == List(child1))
   }
 
+  it should "not fail for not specified family" in {
+    val father = new Male("King", None)
+    val mother = new Female("Queen", None)
+    Family(father, mother)
+    mother.addChild("Child1", "Male")
+
+    //find son of queen
+    val queen = PersonDictionary.getPerson("Queen")
+    val relationFinder = RelationLookup.getLookUp("sister-in-law")
+
+    val result = relationFinder(queen)
+    assert(result == List())
+  }
+
   it should "print brother-in-law" in {
-    val father = new Male("King", null)
-    val mother = new Female("Queen", null)
-    val family = Family(father, mother)
+    val father = new Male("King", None)
+    val mother = new Female("Queen", None)
+    val family = Some(Family(father, mother))
     val child1 = new Male("Child1", family)
     val child2 = new Male("Child2", family)
     mother.addChildren(List(child1, child2))
 
-    val princeWife = new Female("PrincesWife", null)
+    val princeWife = new Female("PrincesWife", None)
     val princesFamily = Family(child1, princeWife)
     //find son of queen
     val queen = PersonDictionary.getPerson("PrincesWife")
@@ -46,13 +58,13 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
   }
 
   it should "print sister-in-law" in {
-    val father = new Male("King", null)
-    val mother = new Female("Queen", null)
-    val family = Family(father, mother)
+    val father = new Male("King", None)
+    val mother = new Female("Queen", None)
+    val family = Some(Family(father, mother))
     val child1 = new Male("Child1", family)
     val child2 = new Female("Child2", family)
     mother.addChildren(List(child1, child2))
-    val princeWife = new Female("PrincesWife", null)
+    val princeWife = new Female("PrincesWife", None)
     val princesFamily = Family(child1, princeWife)
 
     //find son of queen
@@ -65,9 +77,9 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
   }
 
   "Given name of king" should "print daughter" in {
-    val father = new Male("King", null)
-    val mother = new Female("Queen", null)
-    val family = Family(father, mother)
+    val father = new Male("King", None)
+    val mother = new Female("Queen", None)
+    val family = Some(Family(father, mother))
     val child1 = new Female("Child1", family)
     mother.addChildren(List(child1))
 
@@ -81,15 +93,15 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
   }
 
   it should "paternal-uncle" in {
-    val rootfather = new Male("King", null)
-    val rootmother = new Female("Queen", null)
-    val family = Family(rootfather, rootmother)
+    val rootfather = new Male("King", None)
+    val rootmother = new Female("Queen", None)
+    val family = Some(Family(rootfather, rootmother))
     val child1 = new Male("Prince", family)
     val child2 = new Male("Prince's-brother", family)
     rootmother.addChildren(List(child1, child2))
 
-    val princeWife = new Female("PrincesWife", null)
-    val princesFamily = Family(child1, princeWife)
+    val princeWife = new Female("PrincesWife", None)
+    val princesFamily = Some(Family(child1, princeWife))
     val princeChild = new Male("PrinceChild", princesFamily)
     princeWife.addChildren(List(princeChild))
     //find son of queen
@@ -102,16 +114,16 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
   }
 
   it should "paternal-aunt" in {
-    val rootfather = new Male("King", null)
-    val rootmother = new Female("Queen", null)
-    val family = rootfather.marry(rootmother)
+    val rootfather = new Male("King", None)
+    val rootmother = new Female("Queen", None)
+    val family = Some(rootfather.marry(rootmother))
     val child1 = new Male("Prince", family)
     val child2 = new Male("Prince's-brother", family)
     val child3 = new Female("Prince's-sister", family)
     rootmother.addChildren(List(child1, child2, child3))
 
-    val princeWife = new Female("PrincesWife", null)
-    val princesFamily = Family(child1, princeWife)
+    val princeWife = new Female("PrincesWife", None)
+    val princesFamily = Some(Family(child1, princeWife))
     val princeChild = new Male("PrinceChild", princesFamily)
     princeWife.addChildren(List(princeChild))
     //find son of queen
@@ -124,15 +136,15 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
   }
 
   it should "maternal-uncle" in {
-    val rootfather = new Male("King", null)
-    val rootmother = new Female("Queen", null)
-    val family = rootfather.marry(rootmother)
+    val rootfather = new Male("King", None)
+    val rootmother = new Female("Queen", None)
+    val family = Some(rootfather.marry(rootmother))
     val child1 = new Female("Princes", family)
     val child2 = new Male("Prince's-brother", family)
     rootmother.addChildren(List(child1, child2))
 
-    val princeHusband = new Male("PrincesHusband", null)
-    val princesFamily = Family(princeHusband, child1)
+    val princeHusband = new Male("PrincesHusband", None)
+    val princesFamily = Some(Family(princeHusband, child1))
     val princeChild = new Male("PrinceChild", princesFamily)
     child1.addChildren(List(princeChild))
     //find son of queen
@@ -145,16 +157,16 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
   }
 
   it should "maternal-aunt" in {
-    val rootfather = new Male("King", null)
-    val rootmother = new Female("Queen", null)
-    val family = Family(rootfather, rootmother)
+    val rootfather = new Male("King", None)
+    val rootmother = new Female("Queen", None)
+    val family = Some(Family(rootfather, rootmother))
     val child1 = new Female("Princes", family)
     val child2 = new Male("Prince's-brother", family)
     val child3 = new Female("Prince's-Sister", family)
     rootmother.addChildren(List(child1, child2, child3))
 
-    val princeHusband = new Male("PrincesHusband", null)
-    val princesFamily = Family(princeHusband, child1)
+    val princeHusband = new Male("PrincesHusband", None)
+    val princesFamily = Some(Family(princeHusband, child1))
     val princeChild = new Male("PrinceChild", princesFamily)
     child1.addChildren(List(princeChild))
     //find son of queen
@@ -168,7 +180,7 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
 
   it should "produce NoSuchElementException when head is invoked" in {
     assertThrows[NoSuchElementException] {
-      RelationLookup.getLookUp("grand-parents")(new Female("Test", null))
+      RelationLookup.getLookUp("grand-parents")(new Female("Test", None))
     }
   }
 }

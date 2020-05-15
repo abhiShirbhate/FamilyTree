@@ -11,6 +11,15 @@ class Family(father: Male, mother: Female) {
     case _:Male => getMother
     case _ => getFather
   }
+
+  def getSons(): List[Individual] = {
+    getChildren.filter(_.isInstanceOf[Male])
+  }
+
+  def getDaughters(): List[Individual] = {
+    getChildren.filter(_.isInstanceOf[Female])
+  }
+
 }
 
 object Family {

@@ -29,7 +29,8 @@ case class FindRelation(person:String, relation:String) extends Request {
       if(output.isEmpty) NONE
       else output.mkString(" ")
     } catch {
-      case x:Exception => PERSON_NOT_FOUND
+      case x:NoSuchElementException => PERSON_NOT_FOUND
+      case x:Exception => s"Something Went Wrong ${x.getStackTrace}"
     }
   }
 }
