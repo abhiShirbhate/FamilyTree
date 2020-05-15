@@ -6,6 +6,8 @@ import org.scalatest._
 
 class RequestParserSpec extends FlatSpec with BeforeAndAfterAll {
 
+  val parser = new RequestParser()
+
   override def beforeAll {
     val persoan = new Male("Test1", null)
     val persoan2 = new Female("Test2", null)
@@ -17,25 +19,20 @@ class RequestParserSpec extends FlatSpec with BeforeAndAfterAll {
 
   "Request parser" should "parse ADD request" in {
     val input1 = "ADD Test1 Test2"
-    val parser = new RequestParser()
 
     val request = parser.parse(input1)
     assert(request.isInstanceOf[Add])
-
   }
 
   it should "parse input to requests for find relationship" in {
     val input1 = "GET_RELATIONSHIP Test1 Maternal-Aunt "
-    val parser = new RequestParser()
 
     val request = parser.parse(input1)
     assert(request.isInstanceOf[FindRelation])
-
   }
 
   it should "Parse add child to requests" in {
     val input1 = "ADD_CHILD Test2 Aria Female"
-    val parser = new RequestParser()
 
     val request = parser.parse(input1)
     assert(request.isInstanceOf[AddChildren])
@@ -44,8 +41,6 @@ class RequestParserSpec extends FlatSpec with BeforeAndAfterAll {
 
   it should "parse mary to marriage request" in {
     val input1 = "MARY Test1 Test2"
-    val parser = new RequestParser()
-
     val request = parser.parse(input1)
     assert(request.isInstanceOf[Marriage])
 
@@ -55,8 +50,6 @@ class RequestParserSpec extends FlatSpec with BeforeAndAfterAll {
 
     assertThrows[NoSuchMethodException] {
       val input1 = "UNKNOWN King Queen"
-      val parser = new RequestParser()
-
       val request = parser.parse(input1)
     }
   }

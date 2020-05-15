@@ -5,7 +5,7 @@ import com.typesafe.config.ConfigFactory
 
 import scala.io.Source
 
-object Main {
+object Application {
 
   val requestParser = new RequestParser()
   val conf = ConfigFactory.load
