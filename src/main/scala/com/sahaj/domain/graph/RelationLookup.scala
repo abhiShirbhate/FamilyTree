@@ -33,15 +33,15 @@ object RelationLookup {
     val spouse: Option[Individual] = n.getFamily.map(_.getSpouse(n))
     val spouseSisters: List[Individual] = spouse.flatMap(_.getParent.map(family => family.getDaughters()).map(_.filter(!spouse.contains(_)))).getOrElse(List())
 
-    val wivesOfSiblings = n.family.map(_.getSons().filter(_ != n).filter(_.getFamily.isDefined).map(br => br.getFamily.get.getSpouse(br)))
+    val wivesOfSiblings = n.getParent.map(_.getSons().filter(_ != n).filter(_.getFamily.isDefined).map(br => br.getFamily.get.getSpouse(br)))
     spouseSisters ++ wivesOfSiblings.getOrElse(List())
   }
 
   private val brotherInLaw:RelationTraversal = (n:Individual) => {
     val spouse = n.getFamily.map(_.getSpouse(n))
     val spouseBrothers: List[Individual] = spouse.flatMap(_.getParent.map(_.getSons()).map(_.filter(!spouse.contains(_)))).getOrElse(List())
-    val husbandsOfSiblings: List[Individual] = n.family
-      .map(_.getSons().filter(_ != n).filter(_.getFamily.isDefined).map(br => br.getFamily.get.getSpouse(br)))
+    val husbandsOfSiblings: List[Individual] = n.getParent
+      .map(_.getDaughters().filter(_ != n).filter(_.getFamily.isDefined).map(br => br.getFamily.get.getSpouse(br)))
       .getOrElse(List())
     spouseBrothers ::: husbandsOfSiblings
   }

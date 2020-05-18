@@ -38,7 +38,7 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
     assert(result == List())
   }
 
-  it should "print brother-in-law" in {
+  it should "print brother-in-law with husband of siblings" in {
     val father = new Male("King", None)
     val mother = new Female("Queen", None)
     val family = Some(Family(father, mother))
@@ -46,7 +46,16 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
     val child2 = new Male("Child2", family)
     mother.addChildren(List(child1, child2))
 
-    val princeWife = new Female("PrincesWife", None)
+    //princes wifes family
+    val father1 = new Male("jack", None)
+    val mother1 = new Female("jake", None)
+    val family2 = Some(Family(father1, mother1))
+    val princeWife = new Female("PrincesWife", family2)
+    val princeWifeSis = new Female("PrincesWifeSister", family2)
+    val princeWifeSisHub = new Male("KingJohn", None)
+    mother1.addChildren(List(princeWife, princeWifeSis))
+    princeWifeSisHub.marry(princeWifeSis)
+
     val princesFamily = Family(child1, princeWife)
     //find son of queen
     val queen = PersonDictionary.getPerson("PrincesWife")
@@ -54,26 +63,35 @@ class PersonTest extends FlatSpec with BeforeAndAfter {
 
     val result = relationFinder(queen)
     println(result)
-    assert(result.equals(List(child2)))
+    assert(result.equals(List(child2, princeWifeSisHub)))
   }
 
-  it should "print sister-in-law" in {
+  it should "print sister-in-law with siblings wives" in {
     val father = new Male("King", None)
     val mother = new Female("Queen", None)
     val family = Some(Family(father, mother))
     val child1 = new Male("Child1", family)
     val child2 = new Female("Child2", family)
     mother.addChildren(List(child1, child2))
-    val princeWife = new Female("PrincesWife", None)
-    val princesFamily = Family(child1, princeWife)
 
+    //princes wifes family
+    val father1 = new Male("jack", None)
+    val mother1 = new Female("jake", None)
+    val family1: Family = father1.marry(mother1)
+    val princeWife = new Female("PrincesWife", Some(family1))
+    val princeWifeBro = new Male("PrincesWifeBro", Some(family1))
+    val SomeWitch = new Female("SomeWitch", None)
+    mother1.addChildren(List(princeWife, princeWifeBro))
+    princeWifeBro.marry(SomeWitch)
+
+
+    child1.marry(princeWife)
     //find son of queen
     val princesWife = PersonDictionary.getPerson("PrincesWife")
     val relationFinder = RelationLookup.getLookUp("sister-in-law")
 
     val result = relationFinder(princesWife)
-    println(result)
-    assert(result.equals(List(child2)))
+    assert(result.equals(List(child2, SomeWitch)))
   }
 
   "Given name of king" should "print daughter" in {
